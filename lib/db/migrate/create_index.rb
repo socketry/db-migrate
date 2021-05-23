@@ -77,6 +77,7 @@ module DB
 				
 				statement.clause(")")
 				
+				Console.logger.info(self, statement)
 				statement.call
 			end
 		end

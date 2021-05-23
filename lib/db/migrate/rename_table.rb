@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
+# Copyright, 2021, by Samuel G. D. Williams. <http://www.codeotaku.com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'db/client'
-require 'db/migrate'
+require_relative 'drop_index'
 
-RSpec.shared_examples_for DB::Migrate::CreateTable do |adapter|
-	let(:client) {DB::Client.new(adapter)}
-	
-	it "can create a table" do
-		Sync do
-			DB::Migrate.migrate(self, client) do
-				create_table :user, drop_if_exists: true do
-					primary_key
-					column :name, 'TEXT', null: false
-					column :password, 'TEXT', null: false
-					timestamps
-				end
+module DB
+	module Migrate
+		class RenameTable
+			def initialize(name, new_name)
+				@name = name
+				@new_name = new_name
 			end
 			
-			client.session do |session|
-				information_schema = DB::Migrate::InformationSchema.new(session)
+			def call(session)
+				statement = session.clause("ALTER TABLE")
+				statement.identifier(@name)
+				statement.clause("RENAME TO")
+				statement.identifier(@new_name)
 				
-				expect(information_schema.table_exist?(:user)).to be_truthy
+				Console.logger.info(self, statement)
+				statement.call
 			end
 		end
 	end

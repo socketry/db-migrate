@@ -32,16 +32,15 @@ RSpec.shared_examples_for DB::Migrate::CreateTable do |adapter|
 			DB::Migrate.migrate(self, client) do
 				create_table :user, drop_if_exists: true do
 					primary_key
-					column :name, 'TEXT', null: false
-					column :password, 'TEXT', null: false
-					timestamps
 				end
+				
+				rename_table :user, :account
 			end
 			
 			client.session do |session|
 				information_schema = DB::Migrate::InformationSchema.new(session)
 				
-				expect(information_schema.table_exist?(:user)).to be_truthy
+				expect(information_schema.table_exist?(:account)).to be_truthy
 			end
 		end
 	end

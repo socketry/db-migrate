@@ -21,6 +21,7 @@
 # THE SOFTWARE.
 
 require_relative 'create_table'
+require_relative 'rename_table'
 require_relative 'create_index'
 
 module DB
@@ -57,6 +58,11 @@ module DB
 				create_table = CreateTable.new(name, **options)
 				create_table.instance_eval(&block)
 				create_table.call(@session)
+			end
+			
+			def rename_table(name, new_name)
+				rename_table = RenameTable.new(name, new_name)
+				rename_table.call(@session)
 			end
 		end
 		
