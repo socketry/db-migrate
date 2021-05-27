@@ -29,6 +29,7 @@ module DB
 			def initialize(name, drop_if_exists: false, if_not_exists: false)
 				@name = name
 				@columns = []
+				@indexes = []
 				
 				@drop_if_exists = drop_if_exists
 				@if_not_exists = if_not_exists
@@ -48,14 +49,22 @@ module DB
 				@columns << [name, :key_column, options]
 			end
 			
-			def foreign_key(name, **options)
+			def foreign_key(name, index: true, **options)
 				options[:primary] = false
 				
 				@columns << [name, :key_column, options]
+				
+				if index
+					@indexes << name
+				end
 			end
 			
-			def column(name, type, **options)
+			def column(name, type, index: false, **options)
 				@columns << [name, type, options]
+				
+				if index
+					@indexes << name
+				end
 			end
 			
 			def timestamps
@@ -78,7 +87,6 @@ module DB
 				
 				statement.clause("(")
 				first = true
-				indexes = []
 				
 				@columns.each do |name, type, options|
 					if first
@@ -104,10 +112,6 @@ module DB
 						if unique = options[:unique]
 							statement.clause("UNIQUE")
 						end
-						
-						if index = options[:index]
-							indexes << name
-						end
 					end
 				end
 				
@@ -116,7 +120,7 @@ module DB
 				Console.logger.info(self, statement)
 				statement.call
 				
-				indexes.each do |column|
+				@indexes.each do |column|
 					name = "index_#{@name}_on_#{column}"
 					CreateIndex.new(name, @name, column, if_not_exists: @if_not_exists).call(session)
 				end

@@ -64,6 +64,11 @@ module DB
 				rename_table = RenameTable.new(name, new_name)
 				rename_table.call(@session)
 			end
+			
+			def create_index(...)
+				create_index = CreateIndex.new(...)
+				create_index.call(@session)
+			end
 		end
 		
 		def self.migrate(name, client, &block)
