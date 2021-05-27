@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'async'
+
 require_relative 'create_table'
 require_relative 'rename_table'
 require_relative 'create_index'
@@ -72,8 +74,10 @@ module DB
 		end
 		
 		def self.migrate(name, client, &block)
-			client.transaction do |session|
-				Migration.new(name, session).call(&block)
+			Sync do
+				client.transaction do |session|
+					Migration.new(name, session).call(&block)
+				end
 			end
 		end
 	end
