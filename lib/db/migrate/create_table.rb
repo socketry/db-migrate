@@ -106,7 +106,7 @@ module DB
 						end
 						
 						if default = options[:default]
-							statement.clause("DEFAULT").identifier(default)
+							statement.clause("DEFAULT").literal(default)
 						end
 						
 						if unique = options[:unique]
