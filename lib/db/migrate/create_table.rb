@@ -105,8 +105,8 @@ module DB
 							statement.clause("NOT NULL")
 						end
 						
-						if default = options[:default]
-							statement.clause("DEFAULT").literal(default)
+						if options.key?(:default)
+							statement.clause("DEFAULT").literal(options[:default])
 						end
 						
 						if unique = options[:unique]
