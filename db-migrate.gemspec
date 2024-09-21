@@ -3,7 +3,7 @@
 require_relative "lib/db/migrate/version"
 
 Gem::Specification.new do |spec|
-	spec.name = "db-migrate"
+	spec.name = "db-migrate-x"
 	spec.version = DB::Migrate::VERSION
 	
 	spec.summary = "Database migrations."
