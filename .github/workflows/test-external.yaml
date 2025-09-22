@@ -14,7 +14,6 @@ jobs:
       matrix:
         os:
           - ubuntu
-          - macos
         
         ruby:
           - "3.2"
