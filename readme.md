@@ -8,6 +8,10 @@ Provides convenient abstractions for creating tables, indexes and general databa
 
 Please see the [project documentation](https://socketry.github.io/db-migrate).
 
+## Releases
+
+There are no documented releases.
+
 ## Contributing
 
 We welcome contributions to this project.

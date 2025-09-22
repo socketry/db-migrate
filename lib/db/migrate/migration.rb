@@ -8,6 +8,7 @@ require "async"
 require_relative "create_table"
 require_relative "rename_table"
 require_relative "create_index"
+require_relative "alter_table"
 
 module DB
 	module Migrate
@@ -58,6 +59,12 @@ module DB
 			def drop_table(name, if_exists: false)
 				drop_table = DropTable.new(name, if_exists: if_exists)
 				drop_table.call(@session)
+			end
+			
+			def alter_table(name, &block)
+				alter_table = AlterTable.new(name)
+				alter_table.instance_eval(&block)
+				alter_table.call(@session)
 			end
 		end
 		

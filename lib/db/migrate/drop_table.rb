@@ -20,7 +20,9 @@ module DB
 			def call(session)
 				statement = session.clause("DROP TABLE")
 				
-				if @if_exists
+				# Use feature detection for IF EXISTS support
+				features = session.connection.features
+				if @if_exists && features.conditional_operations?
 					statement.clause("IF EXISTS")
 				end
 				
