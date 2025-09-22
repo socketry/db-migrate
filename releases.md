@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.3.0
 
   - Improved database compatibility using standardized feature detection from `DB::Features`.
   - Add support for `alter_table` operations: `rename_column`, `change_column`, and `drop_column`.

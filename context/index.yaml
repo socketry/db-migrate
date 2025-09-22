@@ -1,0 +1,29 @@
+# Automatically generated context index for Utopia::Project guides.
+# Do not edit then files in this directory directly, instead edit the guides and then run `bake utopia:project:agent:context:update`.
+---
+description: Database migrations.
+metadata:
+  documentation_uri: https://socketry.github.io/db-migrate/
+  funding_uri: https://github.com/sponsors/ioquatix/
+  source_code_uri: https://github.com/socketry/db-migrate.git
+files:
+- path: getting-started.md
+  title: Getting Started
+  description: This guide explains how to get started with `db-migrate` for managing
+    database schema changes in Ruby applications.
+- path: migrations.md
+  title: Migrations
+  description: This guide explains how to create and structure database migrations
+    using `db-migrate`.
+- path: create-table.md
+  title: Create Table
+  description: This guide explains how to create database tables using `db-migrate`.
+- path: alter-table.md
+  title: Alter Table
+  description: This guide explains how to modify existing database tables using `db-migrate`.
+- path: drop-table.md
+  title: Drop Table
+  description: This guide explains how to remove database tables using `db-migrate`.
+- path: create-index.md
+  title: Create Index
+  description: This guide explains how to create database indexes using `db-migrate`.
