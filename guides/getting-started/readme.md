@@ -35,23 +35,23 @@ $ bundle add db-mariadb
 Create and run a migration:
 
 ```ruby
-require 'db/migrate'
-require 'db/postgres' # or 'db/mariadb'
+require "db/migrate"
+require "db/postgres" # or 'db/mariadb'
 
 # Connect to your database
 client = DB::Client.new(DB::Postgres::Adapter.new(
-  host: 'localhost',
-  database: 'myapp_development'
+		host: "localhost",
+		database: "myapp_development"
 ))
 
 # Define and run a migration
 DB::Migrate.migrate("create_users_table", client) do
-  create_table :users do
-    primary_key
-    column :name, "TEXT NOT NULL"
-    column :email, "TEXT UNIQUE"
-    timestamps
-  end
+	create_table :users do
+		primary_key
+		column :name, "TEXT NOT NULL"
+		column :email, "TEXT UNIQUE"
+		timestamps
+	end
 end
 ```
 
@@ -61,15 +61,15 @@ Migrations can include multiple operations:
 
 ```ruby
 DB::Migrate.migrate("update_users_schema", client) do
-  # Add new columns
-  alter_table :users do
-    add_column :age, "INTEGER"
-    add_column :active, "BOOLEAN DEFAULT TRUE"
-  end
-  
-  # Create indexes
-  create_index :users, :email
-  create_index :users, [:name, :active]
+		# Add new columns
+	alter_table :users do
+		add_column :age, "INTEGER"
+		add_column :active, "BOOLEAN DEFAULT TRUE"
+	end
+	
+		# Create indexes
+	create_index :users, :email
+	create_index :users, [:name, :active]
 end
 ```
 
@@ -79,15 +79,15 @@ Use conditional operations when you're not sure if tables or columns exist:
 
 ```ruby
 DB::Migrate.migrate("safe_schema_update", client) do
-  # Only create table if it doesn't exist
-  create_table? :profiles do
-    primary_key
-    column :user_id, "BIGINT NOT NULL"
-    column :bio, "TEXT"
-  end
-  
-  # Only drop table if it exists
-  drop_table :old_table, if_exists: true
+		# Only create table if it doesn't exist
+	create_table? :profiles do
+		primary_key
+		column :user_id, "BIGINT NOT NULL"
+		column :bio, "TEXT"
+	end
+	
+		# Only drop table if it exists
+	drop_table :old_table, if_exists: true
 end
 ```
 

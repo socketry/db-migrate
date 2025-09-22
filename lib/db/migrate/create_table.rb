@@ -77,7 +77,7 @@ module DB
 					else
 						statement.clause(",")
 					end
-						
+					
 					if type == :key_column
 						statement.clause(session.connection.key_column(name, **options))
 					else

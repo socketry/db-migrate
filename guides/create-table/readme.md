@@ -8,12 +8,12 @@ Use `create_table` to define a new table:
 
 ```ruby
 DB::Migrate.migrate("create_users", client) do
-  create_table :users do
-    primary_key
-    column :name, "TEXT NOT NULL"
-    column :email, "TEXT UNIQUE"
-    timestamps
-  end
+	create_table :users do
+		primary_key
+		column :name, "TEXT NOT NULL"
+		column :email, "TEXT UNIQUE"
+		timestamps
+	end
 end
 ```
 
@@ -23,10 +23,10 @@ Use `create_table?` to create a table only if it doesn't already exist:
 
 ```ruby
 DB::Migrate.migrate("safe_create_users", client) do
-  create_table? :users do
-    primary_key
-    column :name, "TEXT NOT NULL"
-  end
+	create_table? :users do
+		primary_key
+		column :name, "TEXT NOT NULL"
+	end
 end
 ```
 
@@ -38,10 +38,10 @@ Define columns with their SQL type:
 
 ```ruby
 create_table :products do
-  column :name, "TEXT NOT NULL"
-  column :price, "DECIMAL(10,2)"
-  column :description, "TEXT"
-  column :active, "BOOLEAN DEFAULT TRUE"
+	column :name, "TEXT NOT NULL"
+	column :price, "DECIMAL(10,2)"
+	column :description, "TEXT"
+	column :active, "BOOLEAN DEFAULT TRUE"
 end
 ```
 
@@ -51,14 +51,14 @@ Add an auto-incrementing primary key:
 
 ```ruby
 create_table :users do
-  primary_key # Creates 'id' column
-  # Other columns...
+	primary_key # Creates 'id' column
+		# Other columns...
 end
 
 # Custom primary key name
 create_table :users do
-  primary_key :user_id
-  # Other columns...
+	primary_key :user_id
+		# Other columns...
 end
 ```
 
@@ -72,9 +72,9 @@ Add created_at and updated_at columns:
 
 ```ruby
 create_table :posts do
-  primary_key
-  column :title, "TEXT NOT NULL"
-  timestamps # Adds created_at and updated_at
+	primary_key
+	column :title, "TEXT NOT NULL"
+	timestamps # Adds created_at and updated_at
 end
 ```
 
@@ -84,10 +84,10 @@ end
 
 ```ruby
 create_table :users do
-  primary_key
-  column :email, "TEXT NOT NULL", unique: true
-  column :age, "INTEGER", null: false
-  column :status, "TEXT", default: "'active'"
+	primary_key
+	column :email, "TEXT NOT NULL", unique: true
+	column :age, "INTEGER", null: false
+	column :status, "TEXT", default: "'active'"
 end
 ```
 
@@ -97,9 +97,9 @@ Create indexes on columns:
 
 ```ruby
 create_table :users do
-  primary_key
-  column :email, "TEXT NOT NULL", unique: true, index: true
-  column :name, "TEXT", index: true
+	primary_key
+	column :email, "TEXT NOT NULL", unique: true, index: true
+	column :name, "TEXT", index: true
 end
 ```
 
@@ -109,13 +109,13 @@ end
 
 ```ruby
 create_table :user_preferences do
-  primary_key
-  column :user_id, "BIGINT NOT NULL"
-  column :preference_key, "TEXT NOT NULL"
-  column :preference_value, "TEXT"
-  
-  # Create composite index
-  index [:user_id, :preference_key], unique: true
+	primary_key
+	column :user_id, "BIGINT NOT NULL"
+	column :preference_key, "TEXT NOT NULL"
+	column :preference_value, "TEXT"
+	
+		# Create composite index
+	index [:user_id, :preference_key], unique: true
 end
 ```
 
@@ -123,14 +123,14 @@ end
 
 ```ruby
 create_table :posts do
-  primary_key
-  column :user_id, "BIGINT NOT NULL"
-  column :title, "TEXT NOT NULL"
-  column :content, "TEXT"
-  timestamps
-  
-  # Note: Foreign key constraints are defined separately
-  # This just creates the reference column
+	primary_key
+	column :user_id, "BIGINT NOT NULL"
+	column :title, "TEXT NOT NULL"
+	column :content, "TEXT"
+	timestamps
+	
+		# Note: Foreign key constraints are defined separately
+		# This just creates the reference column
 end
 ```
 
@@ -138,10 +138,10 @@ end
 
 ```ruby
 create_table :analytics do
-  primary_key
-  column :event_data, "JSONB"  # PostgreSQL
-  column :tags, "JSON"         # MariaDB/MySQL
-  column :metadata, "TEXT"     # Universal fallback
+	primary_key
+	column :event_data, "JSONB"  # PostgreSQL
+	column :tags, "JSON"         # MariaDB/MySQL
+	column :metadata, "TEXT"     # Universal fallback
 end
 ```
 
@@ -153,8 +153,8 @@ Replace an existing table:
 
 ```ruby
 create_table :users, drop_if_exists: true do
-  primary_key
-  column :name, "TEXT NOT NULL"
+	primary_key
+	column :name, "TEXT NOT NULL"
 end
 ```
 
@@ -162,8 +162,8 @@ end
 
 ```ruby
 create_table :temp_data, temporary: true do
-  column :id, "BIGINT"
-  column :data, "TEXT"
+	column :id, "BIGINT"
+	column :data, "TEXT"
 end
 ```
 

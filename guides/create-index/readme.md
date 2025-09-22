@@ -8,8 +8,8 @@ Use `create_index` to add indexes for better query performance:
 
 ```ruby
 DB::Migrate.migrate("add_user_indexes", client) do
-  create_index :users, :email
-  create_index :users, :name
+	create_index :users, :email
+	create_index :users, :name
 end
 ```
 
@@ -19,8 +19,8 @@ Create indexes on multiple columns:
 
 ```ruby
 DB::Migrate.migrate("add_composite_indexes", client) do
-  create_index :orders, [:user_id, :created_at]
-  create_index :user_preferences, [:user_id, :preference_key]
+	create_index :orders, [:user_id, :created_at]
+	create_index :user_preferences, [:user_id, :preference_key]
 end
 ```
 
@@ -51,8 +51,8 @@ Create partial indexes with conditions:
 ```ruby
 # PostgreSQL-specific conditional index
 create_index :users, :email, 
-  name: "idx_active_users_email",
-  condition: "active = true"
+		name: "idx_active_users_email",
+		condition: "active = true"
 ```
 
 ## Index Types
@@ -77,7 +77,7 @@ create_index :locations, :coordinates, type: "GiST"
 
 # Text search indexes
 create_index :articles, :content, type: "GIN", 
-  expression: "to_tsvector('english', content)"
+		expression: "to_tsvector('english', content)"
 ```
 
 ## Advanced Examples
@@ -89,13 +89,13 @@ Create indexes on expressions:
 ```ruby
 # Index on lowercase email for case-insensitive searches
 create_index :users, nil,
-  name: "idx_users_email_lower",
-  expression: "LOWER(email)"
+		name: "idx_users_email_lower",
+		expression: "LOWER(email)"
 
 # Index on extracted JSON field
 create_index :documents, nil,
-  name: "idx_documents_title", 
-  expression: "metadata->>'title'"
+		name: "idx_documents_title", 
+		expression: "metadata->>'title'"
 ```
 
 ### Concurrent Index Creation (PostgreSQL)
@@ -106,7 +106,7 @@ For large tables, create indexes without blocking writes:
 # Note: This requires special handling and may not be supported
 # in all migration contexts due to transaction requirements
 create_index :large_table, :important_column, 
-  algorithm: "CONCURRENTLY"
+		algorithm: "CONCURRENTLY"
 ```
 
 ## Performance Considerations
@@ -145,14 +145,14 @@ You can also create indexes when defining tables:
 
 ```ruby
 create_table :users do
-  primary_key
-  column :email, "TEXT NOT NULL", unique: true, index: true
-  column :name, "TEXT", index: true
-  timestamps
-  
-  # Composite indexes
-  index [:email, :created_at]
-  index [:name, :active], name: "idx_active_users_by_name"
+	primary_key
+	column :email, "TEXT NOT NULL", unique: true, index: true
+	column :name, "TEXT", index: true
+	timestamps
+	
+		# Composite indexes
+	index [:email, :created_at]
+	index [:name, :active], name: "idx_active_users_by_name"
 end
 ```
 
@@ -162,8 +162,8 @@ Remove indexes when they're no longer needed:
 
 ```ruby
 DB::Migrate.migrate("cleanup_unused_indexes", client) do
-  drop_index :idx_old_user_lookup, if_exists: true
-  drop_index :idx_deprecated_search, if_exists: true
+	drop_index :idx_old_user_lookup, if_exists: true
+	drop_index :idx_deprecated_search, if_exists: true
 end
 ```
 
@@ -211,7 +211,7 @@ Consider index maintenance in high-traffic applications:
 ```ruby
 # For very large tables, create indexes during low-traffic periods
 DB::Migrate.migrate("add_large_table_index", client) do
-  # Consider creating this during maintenance windows
-  create_index :large_transaction_table, :created_at
+		# Consider creating this during maintenance windows
+	create_index :large_transaction_table, :created_at
 end
 ```

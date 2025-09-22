@@ -8,10 +8,10 @@ Use `alter_table` to modify an existing table:
 
 ```ruby
 DB::Migrate.migrate("update_users_table", client) do
-  alter_table :users do
-    add_column :age, "INTEGER"
-    add_column :active, "BOOLEAN DEFAULT TRUE"
-  end
+	alter_table :users do
+		add_column :age, "INTEGER"
+		add_column :active, "BOOLEAN DEFAULT TRUE"
+	end
 end
 ```
 
@@ -21,8 +21,8 @@ end
 
 ```ruby
 alter_table :users do
-  add_column :email, "TEXT"
-  add_column :phone, "TEXT"
+	add_column :email, "TEXT"
+	add_column :phone, "TEXT"
 end
 ```
 
@@ -30,9 +30,9 @@ end
 
 ```ruby
 alter_table :users do
-  add_column :email, "TEXT NOT NULL"
-  add_column :age, "INTEGER", default: 0
-  add_column :status, "TEXT", unique: true
+	add_column :email, "TEXT NOT NULL"
+	add_column :age, "INTEGER", default: 0
+	add_column :status, "TEXT", unique: true
 end
 ```
 
@@ -42,8 +42,8 @@ end
 
 ```ruby
 alter_table :users do
-  drop_column :old_field
-  drop_column :deprecated_column
+	drop_column :old_field
+	drop_column :deprecated_column
 end
 ```
 
@@ -53,7 +53,7 @@ Use `if_exists` to avoid errors if the column doesn't exist:
 
 ```ruby
 alter_table :users do
-  drop_column :maybe_missing_column, if_exists: true
+	drop_column :maybe_missing_column, if_exists: true
 end
 ```
 
@@ -61,8 +61,8 @@ end
 
 ```ruby
 alter_table :users do
-  rename_column :full_name, :name
-  rename_column :email_address, :email
+	rename_column :full_name, :name
+	rename_column :email_address, :email
 end
 ```
 
@@ -72,8 +72,8 @@ Use `change_column` to modify a column's data type:
 
 ```ruby
 alter_table :users do
-  change_column :age, "INTEGER"
-  change_column :balance, "DECIMAL(10,2)"
+	change_column :age, "INTEGER"
+	change_column :balance, "DECIMAL(10,2)"
 end
 ```
 
@@ -97,10 +97,10 @@ Combine multiple alterations in a single migration:
 
 ```ruby
 alter_table :users do
-  add_column :middle_name, "TEXT"
-  drop_column :old_field, if_exists: true
-  rename_column :full_name, :name
-  change_column :age, "INTEGER"
+	add_column :middle_name, "TEXT"
+	drop_column :old_field, if_exists: true
+	rename_column :full_name, :name
+	change_column :age, "INTEGER"
 end
 ```
 
@@ -111,7 +111,7 @@ end
 ```ruby
 # Convert text to integer with explicit casting
 alter_table :products do
-  change_column :price_text, "DECIMAL(10,2)"
+	change_column :price_text, "DECIMAL(10,2)"
 end
 ```
 
@@ -121,8 +121,8 @@ For PostgreSQL, this automatically includes a `USING` clause for safe conversion
 
 ```ruby
 alter_table :orders do
-  add_column :order_number, "TEXT NOT NULL", 
-    default: "'ORD-' || EXTRACT(epoch FROM NOW())::TEXT"
+	add_column :order_number, "TEXT NOT NULL", 
+				default: "'ORD-' || EXTRACT(epoch FROM NOW())::TEXT"
 end
 ```
 
@@ -130,10 +130,10 @@ end
 
 ```ruby
 alter_table :users do
-  # Only add column if it doesn't exist
-  unless information_schema.column_exists?(:users, :created_at)
-    add_column :created_at, "TIMESTAMP DEFAULT NOW()"
-  end
+		# Only add column if it doesn't exist
+	unless information_schema.column_exists?(:users, :created_at)
+		add_column :created_at, "TIMESTAMP DEFAULT NOW()"
+	end
 end
 ```
 
@@ -153,8 +153,8 @@ Always use conditional operations when uncertain:
 
 ```ruby
 alter_table :users do
-  drop_column :deprecated_field, if_exists: true
-  add_column :new_field, "TEXT"
+	drop_column :deprecated_field, if_exists: true
+	add_column :new_field, "TEXT"
 end
 ```
 
@@ -165,16 +165,16 @@ Make small, focused changes rather than large alterations:
 ```ruby
 # Good: Focused change
 alter_table :users do
-  add_column :email_verified, "BOOLEAN DEFAULT FALSE"
+	add_column :email_verified, "BOOLEAN DEFAULT FALSE"
 end
 
 # Better than: Large, complex change
 alter_table :users do
-  add_column :email_verified, "BOOLEAN DEFAULT FALSE"
-  add_column :phone_verified, "BOOLEAN DEFAULT FALSE"
-  add_column :two_factor_enabled, "BOOLEAN DEFAULT FALSE"
-  drop_column :old_verification_method, if_exists: true
-  rename_column :verification_code, :email_verification_code
+	add_column :email_verified, "BOOLEAN DEFAULT FALSE"
+	add_column :phone_verified, "BOOLEAN DEFAULT FALSE"
+	add_column :two_factor_enabled, "BOOLEAN DEFAULT FALSE"
+	drop_column :old_verification_method, if_exists: true
+	rename_column :verification_code, :email_verification_code
 end
 ```
 

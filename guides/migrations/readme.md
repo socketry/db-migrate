@@ -10,7 +10,7 @@ Migrations in `db-migrate` are Ruby blocks that define schema changes. Each migr
 
 ```ruby
 DB::Migrate.migrate("migration_name", client) do
-  # Schema operations go here
+		# Schema operations go here
 end
 ```
 
@@ -21,15 +21,15 @@ Use descriptive names that indicate what the migration does:
 ```ruby
 # Good examples
 DB::Migrate.migrate("create_users_table", client) do
-  # ...
+		# ...
 end
 
 DB::Migrate.migrate("add_email_index_to_users", client) do
-  # ...
+		# ...
 end
 
 DB::Migrate.migrate("remove_deprecated_columns", client) do
-  # ...
+		# ...
 end
 ```
 
@@ -39,13 +39,13 @@ All migration operations run inside a database transaction. If any operation fai
 
 ```ruby
 DB::Migrate.migrate("complex_migration", client) do
-  create_table :users do
-    primary_key
-    column :name, "TEXT NOT NULL"
-  end
-  
-  # If this fails, the table creation above is rolled back
-  create_index :users, :name
+	create_table :users do
+		primary_key
+		column :name, "TEXT NOT NULL"
+	end
+	
+		# If this fails, the table creation above is rolled back
+	create_index :users, :name
 end
 ```
 
@@ -87,12 +87,12 @@ Query database metadata within migrations:
 
 ```ruby
 DB::Migrate.migrate("conditional_migration", client) do
-  # Check if table exists before creating
-  unless information_schema.table_exists?(:users)
-    create_table :users do
-      primary_key
-      column :name, "TEXT NOT NULL"
-    end
-  end
+		# Check if table exists before creating
+	unless information_schema.table_exists?(:users)
+		create_table :users do
+			primary_key
+			column :name, "TEXT NOT NULL"
+		end
+	end
 end
 ```
