@@ -1,0 +1,12 @@
+getting-started:
+  order: 1
+migrations:
+  order: 2
+create-table:
+  order: 3
+alter-table:
+  order: 4
+drop-table:
+  order: 5
+create-index:
+  order: 6
