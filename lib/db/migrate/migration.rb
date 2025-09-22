@@ -4,6 +4,7 @@
 # Copyright, 2021-2024, by Samuel Williams.
 
 require "async"
+require "console"
 
 require_relative "create_table"
 require_relative "rename_table"
@@ -18,6 +19,8 @@ module DB
 				@session = session
 			end
 			
+			attr_reader :name, :session
+			
 			def call(&block)
 				create_table?(:migration) do
 					primary_key
@@ -25,7 +28,19 @@ module DB
 					timestamps
 				end
 				
+				# Check if migration has already been executed
+				if migration_exists?
+					Console.logger.info(self, "Migration '#{@name}' already executed, skipping...")
+					return
+				end
+				
+				# Execute the migration
+				Console.logger.info(self, "Running migration '#{@name}'...")
 				self.instance_eval(&block)
+				
+				# Record successful migration
+				record_migration
+				Console.logger.info(self, "Migration '#{@name}' completed successfully.")
 			end
 			
 			def information_schema
@@ -65,6 +80,39 @@ module DB
 				alter_table = AlterTable.new(name)
 				alter_table.instance_eval(&block)
 				alter_table.call(@session)
+			end
+			
+			private
+			
+			# Check if this migration has already been executed
+			def migration_exists?
+				statement = @session.clause("SELECT COUNT(*) FROM")
+				statement.identifier(:migration)
+				statement.clause("WHERE")
+				statement.identifier(:name)
+				statement.clause("=")
+				statement.literal(@name)
+				
+				result = statement.call
+				count = result.to_a.first.first
+				count > 0
+			end
+			
+			# Record that this migration has been executed
+			def record_migration
+				statement = @session.clause("INSERT INTO")
+				statement.identifier(:migration)
+				statement.clause("(")
+				statement.identifier(:name)
+				statement.clause(",")
+				statement.identifier(:created_at)
+				statement.clause(",")
+				statement.identifier(:updated_at)
+				statement.clause(") VALUES (")
+				statement.literal(@name)
+				statement.clause(", NOW(), NOW())")
+				
+				statement.call
 			end
 		end
 		
